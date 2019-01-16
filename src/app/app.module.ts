@@ -13,7 +13,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
-import  'hammerjs';
+import 'hammerjs';
 
 import { MenuComponent } from './menu/menu.component';
 import { DishdetailComponent } from './dishdetail/dishdetail.component';
@@ -54,12 +54,12 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatButtonModule,
     AppRoutingModule,
     MatDialogModule,
-    MatFormFieldModule, 
+    MatFormFieldModule,
     MatInputModule,
     MatCheckboxModule,
     FormsModule
   ],
-  providers: [DishService,PromotionService,LeaderService],
+  providers: [DishService, PromotionService, LeaderService],
   bootstrap: [AppComponent],
   entryComponents: [LoginComponent]
 })
