@@ -1,4 +1,4 @@
-import { Component, OnInit,Inject ,Input, ViewChild } from '@angular/core';
+import { Component, OnInit, Inject, Input, ViewChild } from '@angular/core';
 import { switchMap } from 'rxjs/operators';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
@@ -20,7 +20,7 @@ export class DishdetailComponent implements OnInit {
   prev: string;
   next: string;
   errMess: string;
-
+  dishcopy: Dish;
   commentForm: FormGroup;
   comment: Comment;
   @ViewChild('fform') commentFormDirective;
@@ -54,9 +54,10 @@ export class DishdetailComponent implements OnInit {
 
     this.dishservice.getDishIds()
       .subscribe(dishIds => this.dishIds = dishIds, errmess => this.errMess = <any>errmess);
-    this.route.params.pipe(switchMap((params: Params) => this.dishservice.getDish(params['id'])))
-      .subscribe(dish => { this.dish = dish; this.setPrevNext(dish.id); }, 
-       errmess => this.errMess = <any>errmess);
+    this.route.params
+      .pipe(switchMap((params: Params) => this.dishservice.getDish(params['id'])))
+      .subscribe(dish => { this.dish = dish; this.dishcopy = dish; this.setPrevNext(dish.id); },
+        errmess => this.errMess = <any>errmess)
 
 
   }
@@ -86,7 +87,12 @@ export class DishdetailComponent implements OnInit {
     console.log(this.comment);
     let date = new Date();
     this.comment.date = date.toISOString();
-    this.dish.comments.push(this.comment);
+    this.dishcopy.comments.push(this.comment);
+    this.dishservice.putDish(this.dishcopy)
+      .subscribe(dish => {
+        this.dish = dish; this.dishcopy = dish;
+      },
+      errmess => { this.dish = null; this.dishcopy = null; this.errMess = <any>errmess; });    
     this.commentForm.reset({
       author: '',
       rating: '5',
