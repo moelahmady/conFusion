@@ -39,6 +39,7 @@ import { baseURL } from './shared/base';
 import { AppRoutingModule } from './app-routing/app-routing.module';
 import { MatDialogModule } from '@angular/material/dialog';
 import { HighlightDirective } from './directives/highlight.directive';
+import {FeedbackService} from './services/feedback.service';
 
 @NgModule({
   declarations: [
@@ -75,7 +76,7 @@ import { HighlightDirective } from './directives/highlight.directive';
     MatSliderModule,
     HttpClientModule
   ],
-  providers: [DishService, PromotionService, LeaderService, ProcessHTTPMsgService, {
+  providers: [DishService, PromotionService, LeaderService, ProcessHTTPMsgService, FeedbackService, {
     provide: 'BaseURL', useValue: baseURL
   }],
   bootstrap: [AppComponent],

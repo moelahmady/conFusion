@@ -31,12 +31,14 @@ export class DishService {
   getDishIds(): Observable<string[] | any> {
     return this.getDishes().pipe(map(dishes => dishes.map(dish => dish.id))).pipe(catchError(error => error));
   }
+
   putDish(dish: Dish): Observable<Dish> {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
+    console.log(dish);
     return this.http.put<Dish>(baseURL + 'dishes/' + dish.id, dish, httpOptions)
       .pipe(catchError(this.processHTTPMsgService.handleError));
 
