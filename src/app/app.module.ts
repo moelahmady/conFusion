@@ -20,7 +20,11 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSliderModule } from '@angular/material/slider';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AppRoutingModule } from './app-routing/app-routing.module';
+import { MatDialogModule } from '@angular/material/dialog';
+import { HighlightDirective } from './directives/highlight.directive';
+
 
 import { MenuComponent } from './menu/menu.component';
 import { DishdetailComponent } from './dishdetail/dishdetail.component';
@@ -29,17 +33,19 @@ import { FooterComponent } from './footer/footer.component';
 import { HomeComponent } from './home/home.component';
 import { AboutComponent } from './about/about.component';
 import { ContactComponent } from './contact/contact.component';
+import { LoginComponent } from './login/login.component';
 
 import { DishService } from './services/dish.service';
 import { PromotionService } from './services/promotion.service';
 import { LeaderService } from './services/leader.service';
 import { ProcessHTTPMsgService } from './services/process-httpmsg.service';
-import { LoginComponent } from './login/login.component';
+import { FeedbackService } from './services/feedback.service';
+import { AuthService } from './services/auth.service';
+
 import { baseURL } from './shared/base';
-import { AppRoutingModule } from './app-routing/app-routing.module';
-import { MatDialogModule } from '@angular/material/dialog';
-import { HighlightDirective } from './directives/highlight.directive';
-import {FeedbackService} from './services/feedback.service';
+import { JwtInterceptor } from './shared/jwt.interceptor';
+
+
 
 @NgModule({
   declarations: [
@@ -76,9 +82,11 @@ import {FeedbackService} from './services/feedback.service';
     MatSliderModule,
     HttpClientModule
   ],
-  providers: [DishService, PromotionService, LeaderService, ProcessHTTPMsgService, FeedbackService, {
-    provide: 'BaseURL', useValue: baseURL
-  }],
+  providers: [DishService, PromotionService, LeaderService, ProcessHTTPMsgService, FeedbackService, AuthService, [
+    { provide: 'BaseURL', useValue: baseURL },
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }
+  ]
+  ],
   bootstrap: [AppComponent],
   entryComponents: [LoginComponent]
 })

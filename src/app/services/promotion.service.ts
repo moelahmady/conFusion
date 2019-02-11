@@ -20,7 +20,7 @@ export class PromotionService {
   }
 
   getPromotion(id: string): Observable<Promotion> {
-    return this.http.get<Promotion>(baseURL + 'promotions/' + id);
+    return this.http.get<Promotion>(baseURL + 'promotions/' + id).pipe(catchError(this.processHTTPMsgService.handleError));
 
   }
 

@@ -29,7 +29,7 @@ export class DishService {
   }
 
   getDishIds(): Observable<string[] | any> {
-    return this.getDishes().pipe(map(dishes => dishes.map(dish => dish.id))).pipe(catchError(error => error));
+    return this.getDishes().pipe(map(dishes => dishes.map(dish => dish._id))).pipe(catchError(error => error));
   }
 
   putDish(dish: Dish): Observable<Dish> {
@@ -39,7 +39,7 @@ export class DishService {
       })
     };
     console.log(dish);
-    return this.http.put<Dish>(baseURL + 'dishes/' + dish.id, dish, httpOptions)
+    return this.http.put<Dish>(baseURL + 'dishes/' + dish._id, dish, httpOptions)
       .pipe(catchError(this.processHTTPMsgService.handleError));
 
   }

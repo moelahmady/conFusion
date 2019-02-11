@@ -24,7 +24,7 @@ export class ContactComponent implements OnInit {
 
   feedbackForm: FormGroup;
   feedback: Feedback;
-  feedbackCopy: Feedback;
+  submittedFeedback: Feedback;
   contactType = ContactType;
   submittingFeedback = false;
   feedbackSubmitted = false;
@@ -89,7 +89,8 @@ export class ContactComponent implements OnInit {
     this.feedback = this.feedbackForm.value;
     this.submittingFeedback = true;
     this.feedbackservice.submitFeedback(this.feedback).subscribe(feedback => {
-
+      
+      this.submittedFeedback = feedback;
       this.feedbackSubmitted = true;
       this.submittingFeedback = false;
 

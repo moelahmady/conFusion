@@ -67,7 +67,7 @@ export class DishdetailComponent implements OnInit {
       .subscribe(dishIds => this.dishIds = dishIds, errmess => this.errMess = <any>errmess);
     this.route.params
       .pipe(switchMap((params: Params) => { this.visibility = 'hidden'; return this.dishservice.getDish(params['id']); }))
-      .subscribe(dish => { this.dish = dish; this.dishcopy = dish; this.setPrevNext(dish.id); this.visibility = 'shown'; },
+      .subscribe(dish => { this.dish = dish; this.dishcopy = dish; this.setPrevNext(dish._id); this.visibility = 'shown'; },
         errmess => this.errMess = <any>errmess)
 
 
@@ -95,8 +95,8 @@ export class DishdetailComponent implements OnInit {
 
   onSubmit() {
     this.comment = this.commentForm.value;
-    let date = new Date();
-    this.comment.date = date.toISOString();
+    // let date = new Date();
+    // this.comment.date = date.toISOString();
     this.dishcopy.comments.push(this.comment);
     this.dishservice.putDish(this.dishcopy)
       .subscribe(dish => {
