@@ -33,8 +33,9 @@ export class DishdetailComponent implements OnInit {
   dishcopy: Dish;
   commentForm: FormGroup;
   comment: Comment;
+  currentUser = JSON.parse(localStorage.getItem('currentUser'));
   @ViewChild('fform') commentFormDirective;
-  visibility = 'shown';
+  visibility = 'shown';  
 
 
   formErrors = {
@@ -80,11 +81,23 @@ export class DishdetailComponent implements OnInit {
   }
 
   createForm(): void {
-    this.commentForm = this.fb.group({
-      author: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(25)]],
-      rating: ['5', Validators.required],
-      comment: ''
-    });
+
+    if(this.currentUser != null){
+      console.log(`Curent user:  ${this.currentUser.user.username}`);
+
+      this.commentForm = this.fb.group({
+        // author: [`${this.currentUser.user.firstname} ${this.currentUser.user.lastname}`, [Validators.required, Validators.minLength(2), Validators.maxLength(25)]],
+        rating: ['5', Validators.required],
+        comment: ''
+      });
+    } else{
+      this.commentForm = this.fb.group({
+        author: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(25)]],
+        rating: ['5', Validators.required],
+        comment: ''
+      });
+    }
+
 
     this.commentForm.valueChanges
       .subscribe(data => this.onValueChanged(data));
@@ -97,23 +110,37 @@ export class DishdetailComponent implements OnInit {
     this.comment = this.commentForm.value;
     // let date = new Date();
     // this.comment.date = date.toISOString();
-    this.dishcopy.comments.push(this.comment);
-    this.dishservice.putDish(this.dishcopy)
+    // this.dishcopy.comments.push(this.comment);
+    this.dishservice.postComment(this.dishcopy, this.comment)
       .subscribe(dish => {
         console.log(dish);
         this.dish = dish; this.dishcopy = dish;
       },
         errmess => { this.dish = null; this.dishcopy = null; this.errMess = <any>errmess; });
-    this.commentForm.reset({
-      author: '',
-      rating: '5',
-      comment: ''
-    });
-    this.commentFormDirective.resetForm({
-      author: '',
-      rating: '5',
-      comment: ''
-    });
+    if(this.currentUser){
+      this.commentForm.reset({
+        // author: `${this.currentUser.user.firstname} ${this.currentUser.user.lastname}`,
+        rating: '5',
+        comment: ''
+      });
+      this.commentFormDirective.resetForm({
+        // author: `${this.currentUser.user.firstname} ${this.currentUser.user.lastname}`,
+        rating: '5',
+        comment: ''
+      });
+    }else{
+      this.commentForm.reset({
+        author: '',
+        rating: '5',
+        comment: ''
+      });
+      this.commentFormDirective.resetForm({
+        author: '',
+        rating: '5',
+        comment: ''
+      });
+    }
+
   }
 
   onValueChanged(data?: any) {
