@@ -4,10 +4,6 @@ $background-light: #9575CD;
 $background-pale: #D1C4E9;
 $background-moredark: #4527A0;
 
-.active {
-    background: $background-moredark;
-}
-
 @mixin zero-margin($pad-up-down, $pad-left-right) {
     margin: 0px auto;
     padding: $pad-up-down $pad-left-right;
@@ -19,7 +15,6 @@ $background-moredark: #4527A0;
     color:floralwhite;
     min-height: 150px;
 }
-
-.flex-spacer{
-    flex: 1 1 auto;
-  }
+.active {
+    background: $background-moredark;
+}

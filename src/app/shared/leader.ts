@@ -1,5 +1,5 @@
-export class Leader{
-    id: string;
+export class Leader {
+    _id: string;
     name: string;
     image: string;
     designation: string;

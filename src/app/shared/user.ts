@@ -1,6 +1,8 @@
-export class User{
+export class User {
+    _id: string;
     username: string;
-    pasword: string;
-    firstname: String;
-    lastname: String;
+    firstname: string;
+    lastname: string;
+    facebookId: string;
+    admin: boolean;
 }
